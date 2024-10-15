@@ -8,17 +8,36 @@ public class SimpsonProgF {
 
     private static char[][] tablero;
 
+    private static void imprimirTablero() {
+        for (int i = 0; i < MAX_FILA_TABLERO; i++) {
+            for (int j = 0; j < MAX_COLUMNA_TABLERO; j++) {
+                System.out.print(tablero[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+    private static void asignarCaracterACasillasLibres(char caracter) {
+        for (int i = 0; i < MAX_FILA_TABLERO; i++) {
+            for (int j = 0; j < MAX_COLUMNA_TABLERO; j++) {
+                tablero[i][j] = 'caracter';
+            }
+        }
+    }
+    private static void asignarBartACasillaLibre(char caracter) {
+        Random aleatorio = new Random();
+        // Colocar 'B' en una posición aleatoria
+        int filaAleatorio = aleatorio.nextInt(MAX_FILA_TABLERO);
+        int columnaAleatorio = aleatorio.nextInt(MAX_COLUMNA_TABLERO);
+        tablero[filaAleatorio][columnaAleatorio] = 'caracter';
+    }
     public static void main(String[] args) {
         tablero = new char[MAX_FILA_TABLERO][MAX_COLUMNA_TABLERO];
 
+        asignarCaracterACasillasLibres('L');
         // Inicializar el tablero con 'L'
-        for (int i = 0; i < MAX_FILA_TABLERO; i++) {
-            for (int j = 0; j < MAX_COLUMNA_TABLERO; j++) {
-                tablero[i][j] = 'L';
-            }
-        }
-        imprimirTablero();
-
+      imprimirTablero();
+      asignarBartACasillaLibre('B');
         Random aleatorio = new Random();
         // Colocar 'B' en una posición aleatoria
         int filaAleatorio = aleatorio.nextInt(MAX_FILA_TABLERO);
