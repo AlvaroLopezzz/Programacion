@@ -1,86 +1,52 @@
-package com.example.main;
-
-
 import java.util.Random;
 
-public class Main{
-    private static final int MAX_FILA_TABLERO = 10;
-    private static final int MAX_COLUMNA_TABLERO = 10;
+public class Main {
+    int filas = 10;
+    int columnas = 9;
+    int[][] tablero = new int[filas][columnas];
 
-    private static char[][] tablero;
-
-    private static void imprimirTablero() {
-        for (int i = 0; i < MAX_FILA_TABLERO; i++) {
-            for (int j = 0; j < MAX_COLUMNA_TABLERO; j++) {
-
-                System.out.println(tablero[i][j] + " ");
-            }
-            System.out.println("");
-        }
-
-        System.out.println("");
-        System.out.println("");
-        System.out.println("");
-    }
-
-
-    private static void asignarLibreACasillasLibres(char caracter){
-        for (int i = 0; i < MAX_FILA_TABLERO; i++) {
-            for (int j = 0; j < MAX_COLUMNA_TABLERO; j++) {
-
-                tablero[i][j] = caracter;
+    public static void llenarTablero(int[][] tablero) {
+        Random random = new Random();
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                int numAleatorio = 10 * (j + 1) + random.nextInt(10);
+                tablero[i][j] = numAleatorio;
             }
         }
     }
-    private static void asignarPersonajesACasillasLibre(char caracter, int numRepeticiones) {
-        Random aleatorio = new Random();
-        int filaAleatorio;
-        int columnaAleatorio;
-        for (int i = 0; i < numRepeticiones; i++) {
-            do {
-                filaAleatorio = aleatorio.nextInt(MAX_FILA_TABLERO);
-                columnaAleatorio = aleatorio.nextInt(MAX_COLUMNA_TABLERO);
-            } while (tablero[filaAleatorio][columnaAleatorio] != 'L');
-            tablero[filaAleatorio][columnaAleatorio] = caracter;
+    public static void ordenarColumnas(int[][] tablero) {
+        int filas = tablero.length;
+        int columnas = tablero[0].length;
+
+        for (int columna = 0; columna < columnas; columna++) {
+            for (int i = 0; i < filas - 1; i++) {
+                for (int j = i + 1; j < filas; j++) {
+                    if (tablero[i][columna] > tablero[j][columna]) {
+                        // Intercambiar valores
+                        int aux = tablero[i][columna];
+                        tablero[i][columna] = tablero[j][columna];
+                        tablero[j][columna] = aux;
+                    }
+                }
+            }
         }
     }
-    //  private static void asignarCaracterACasillasLibres ( char caracter) {
-    //     Random aleatorio = new Random();
-    //   int filaAleatorioHomer;
-    // int columnaAleatorioHomer;
-
-    //for (int i = 0; i < 10; i++) {
-    //  do {
-    //   filaAleatorioHomer = aleatorio.nextInt(MAX_FILA_TABLERO);
-    //   columnaAleatorioHomer = aleatorio.nextInt(MAX_COLUMNA_TABLERO);
-    //} while (tablero[filaAleatorioHomer][columnaAleatorioHomer] != 'L');
-
-
-    // tablero[filaAleatorioHomer][columnaAleatorioHomer] = caracter;
-    //}
-//        }
-    public static void main (String [] args){
-
-        tablero = new char[MAX_FILA_TABLERO][MAX_COLUMNA_TABLERO];
-
-        asignarLibreACasillasLibres('L');
-        imprimirTablero();
-
-
-        asignarPersonajesACasillasLibre('B', 1);
-
-
-        imprimirTablero();
-
-        asignarPersonajesACasillasLibre('H', 10);
-
-        imprimirTablero();
-        asignarPersonajesACasillasLibre('M', 10);
-        imprimirTablero();
-        tablero[MAX_FILA_TABLERO - 1][MAX_COLUMNA_TABLERO - 1] = 'F';
-        imprimirTablero();
+    public static void imprimirTablero(int[][] tablero) {
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[i].length; j++) {
+                System.out.print(tablero[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
+    public static void main(String[] args) {
+        int filas = 10;
+        int columnas = 9;
+        int[][] tablero = new int[filas][columnas];
 
-
+        llenarTablero(tablero);
+        ordenarColumnas(tablero);
+        imprimirTablero(tablero);
+    }
 
 }
