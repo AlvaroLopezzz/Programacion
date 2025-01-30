@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Películas</title>
+    <style>
+        :root {
+            --background-dark: #121212;
+            --card-dark: #1e1e1e;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --accent-color: #7b2cbf;
+            --accent-hover: #9d4edd;
+            --success-color: #4cc9f0;
+            --warning-color: #f72585;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--background-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .controls-bar {
+            background: var(--card-dark);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .search-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #252525;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 0.8rem;
+            border-radius: 8px;
+            background: #252525;
+            color: var(--text-primary);
+            border: 1px solid #333;
+            min-width: 150px;
+        }
+
+        .control-button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent-color);
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .control-button:hover {
+            background: var(--accent-hover);
+        }
+
+        .genre-chips {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .genre-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid #333;
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .genre-chip:hover {
+            background: #252525;
+        }
+
+        .genre-chip.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        .movies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            padding: 0.5rem;
+        }
+
+        .movie-card {
+            background: var(--card-dark);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-poster {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+        }
+
+        .movie-info {
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .movie-title {
+            font-size: 1rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .movie-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .movie-genre {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .movie-year {
+            font-size: 0.8rem;
+            color: var(--success-color);
+        }
+
+        .movie-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-weight: 500;
+            align-self: flex-start;
+        }
+
+        .status-estreno {
+            background-color: var(--success-color);
+            color: #000;
+        }
+
+        .status-venta {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 3rem;
+            background: var(--card-dark);
+            border-radius: 12px;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .search-section {
+                flex-direction: column;
+            }
+
+            .filter-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .movies-grid {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls-bar">
+            <div class="search-section">
+                <input type="text" 
+                       class="search-input" 
+                       placeholder="Buscar películas..." 
+                       id="searchInput">
+                <button class="control-button" onclick="buscarPeliculas()">Buscar</button>
+            </div>
+            
+            <div class="filter-section">
+                <select id="generoSelect" onchange="filtrarPorGenero()">
+                    <option value="">Todos los géneros</option>
+                </select>
+                <button class="control-button" onclick="toggleOrden()">
+                    Ordenar por año ↑
+                </button>
+            </div>
+
+            <div class="genre-chips" id="genreChips">
+                <!-- Los chips de género se generarán dinámicamente -->
+            </div>
+        </div>
+
+        <div class="movies-grid" id="peliculasContainer">
+            <!-- Las películas se cargarán aquí -->
+        </div>
+    </div>
+
+    <script>
+        const peliculas = [
+            { titulo: "Super Mario Bros", genero: "Animación", año: 2023, image: "Mario.jpg" },
+            { titulo: "El Gato con Botas", genero: "Animación", año: 2022, image: "gato.jpg" },
+            { titulo: "Spider-Man", genero: "Acción", año: 2021, image: "spiderman.jpeg" },
+            { titulo: "Tadeo Jones 3", genero: "Animación", año: 2022, image: "tadeojones.jpg" },
+            { titulo: "Momias", genero: "Animación", año: 2023, image: "momias.jpg" },
+            { titulo: "Sonic 2", genero: "Aventura", año: 2022, image: "sonic.jpg" },
+            { titulo: "Una familia de superhéroes", genero: "Animación", año: 2023, image: "superheroes.jpg" },
+            { titulo: "Ruby y el último dragón adolescente", genero: "Animación", año: 2023, image: "kraken.jpg" },
+            { titulo: "Sing 2", genero: "Animación", año: 2021, image: "sing.jpg" },
+            { titulo: "Rally Road Racers", genero: "Aventura", año: 2023, image: "rally.png" },
+            { titulo: "Inspector Sun", genero: "Animación", año: 2023, image: "bug detective.jpg" },
+            { titulo: "Mi amigo el cocodrilo", genero: "Aventura", año: 2022, image: "cocodrilo.jpg" },
+            { titulo: "La Sirenita", genero: "Fantasía", año: 2023, image: "sirenita.jpeg" },
+            { titulo: "Las Aventuras Espaciales", genero: "Ciencia Ficción", año: 2023, image: "aventurasespaciales.jpg" },
+            { titulo: "Cars", genero: "Animación", año: 2023, image: "Cars.jpg" } ,
+            { titulo: "Piratas Mágicos", genero: "Aventura", año: 2023, image: "piratas.jpg" } ,
+            { titulo: "Jurassic World", genero: "Aventura", año: 2023, image: "dinosaurios.jpg" } ,
+            { titulo: "Escuela para Fracasados", genero: "Comedia", año: 2023, image: "fracasados.jpg" } 
+        ];
+
+        let ordenAscendente = true;
+        let generoActual = "";
+
+        function inicializarApp() {
+            const generos = [...new Set(peliculas.map(p => p.genero))].sort();
+            
+            // Poblar select de géneros
+            const generoSelect = document.getElementById('generoSelect');
+            generos.forEach(genero => {
+                const option = document.createElement('option');
+                option.value = genero;
+                option.textContent = genero;
+                generoSelect.appendChild(option);
+            });
+
+            // Crear chips de género
+            const genreChips = document.getElementById('genreChips');
+            generos.forEach(genero => {
+                const chip = document.createElement('button');
+                chip.className = 'genre-chip';
+                chip.textContent = genero;
+                chip.onclick = () => {
+                    document.getElementById('generoSelect').value = genero;
+                    filtrarPorGenero();
+                    actualizarChipsActivos(chip);
+                };
+                genreChips.appendChild(chip);
+            });
+
+            mostrarPeliculas(peliculas);
+        }
+
+        function mostrarPeliculas(peliculasFiltradas) {
+            const container = document.getElementById('peliculasContainer');
+            container.innerHTML = '';
+
+            if (peliculasFiltradas.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>No se encontraron películas</h3>
+                        <p>Intenta ajustar los filtros de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            peliculasFiltradas.forEach(pelicula => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <img src="${pelicula.image}" alt="${pelicula.titulo}" class="movie-poster">
+                    <div class="movie-info">
+                        <h3 class="movie-title">${pelicula.titulo}</h3>
+                        <div class="movie-meta">
+                            <span class="movie-genre">${pelicula.genero}</span>
+                            <span class="movie-year">${pelicula.año}</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filtrarPorGenero() {
+            generoActual = document.getElementById('generoSelect').value;
+            aplicarFiltros();
+        }
+
+        function buscarPeliculas() {
+            aplicarFiltros();
+        }
+
+        function toggleOrden() {
+            ordenAscendente = !ordenAscendente;
+            const btn = document.querySelector('button[onclick="toggleOrden()"]');
+            btn.textContent = `Ordenar por año ${ordenAscendente ? '↑' : '↓'}`;
+            aplicarFiltros();
+        }
+
+        function aplicarFiltros() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            let peliculasFiltradas = peliculas.filter(pelicula => {
+                const cumpleFiltroGenero = !generoActual || pelicula.genero === generoActual;
+                const cumpleBusqueda = pelicula.titulo.toLowerCase().includes(searchTerm);
+                return cumpleFiltroGenero && cumpleBusqueda;
+            });
+
+            peliculasFiltradas.sort((a, b) => {
+                return ordenAscendente ? a.año - b.año : b.año - a.año;
+            });
+            
+            mostrarPeliculas(peliculasFiltradas);
+        }
+
+        function actualizarChipsActivos(chipActivo) {
+            document.querySelectorAll('.genre-chip').forEach(chip => {
+                chip.classList.remove('active');
+            });
+            if (chipActivo && generoActual) {
+                chipActivo.classList.add('active');
+            }
+        }
+
+        window.onload = inicializarApp;
+    </script>
+</body>
+</html>

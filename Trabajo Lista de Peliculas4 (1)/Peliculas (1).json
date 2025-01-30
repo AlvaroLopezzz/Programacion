@@ -1,0 +1,71 @@
+[
+    {
+      "titulo": "Película 1",
+      "descripcion": "Descripción de la película 1",
+      "imagen": "imagen1.jpg"
+    },
+    {
+      "titulo": "Película 2",
+      "descripcion": "Descripción de la película 2",
+      "imagen": "imagen2.jpg"
+    },
+    {
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      },
+      {
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      },
+      {
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      },{
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      },
+      {
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      },{
+        "titulo": "Película 1",
+        "descripcion": "Descripción de la película 1",
+        "imagen": "imagen1.jpg"
+      },
+      {
+        "titulo": "Película 2",
+        "descripcion": "Descripción de la película 2",
+        "imagen": "imagen2.jpg"
+      }
+    
+  ]

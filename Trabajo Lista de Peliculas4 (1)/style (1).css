@@ -1,0 +1,290 @@
+.controls {
+    background: var(--card-bg);
+    padding: 1rem;
+    margin: 1rem auto;
+    max-width: 1200px;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.search-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.controls input,
+.controls select,
+.controls button {
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    border: 1px solid var(--primary);
+    background: var(--background);
+    color: var(--text);
+    font-family: 'Poppins', sans-serif;
+}
+
+.controls button {
+    background: var(--primary);
+    color: var(--background);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.controls button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.movie-info {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--primary);
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem;
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+@media (max-width: 600px) {
+    .controls {
+        flex-direction: column;
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .search-container {
+        width: 100%;
+    }
+
+    .controls input,
+    .controls select,
+    .controls button {
+        width: 100%;
+    }
+}
+:root {
+    --background-dark: #121212;
+    --card-dark: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --accent-color: #7b2cbf;
+    --accent-hover: #9d4edd;
+    --success-color: #4cc9f0;
+    --warning-color: #f72585;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: var(--background-dark);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+.controls-bar {
+    background: var(--card-dark);
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.search-section {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.search-input {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #252525;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.filter-section {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+select {
+    padding: 0.8rem;
+    border-radius: 8px;
+    background: #252525;
+    color: var(--text-primary);
+    border: 1px solid #333;
+    min-width: 150px;
+}
+
+.control-button {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent-color);
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control-button:hover {
+    background: var(--accent-hover);
+}
+
+.genre-chips {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.genre-chip {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    border: 1px solid #333;
+    background: transparent;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.genre-chip:hover {
+    background: #252525;
+}
+
+.genre-chip.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 0.5rem;
+}
+
+.movie-card {
+    background: var(--card-dark);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    object-fit: cover;
+}
+
+.movie-info {
+    padding: 1rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.movie-title {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.movie-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.movie-genre {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.movie-year {
+    font-size: 0.8rem;
+    color: var(--success-color);
+}
+
+.movie-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-weight: 500;
+    align-self: flex-start;
+}
+
+.status-estreno {
+    background-color: var(--success-color);
+    color: #000;
+}
+
+.status-venta {
+    background-color: var(--warning-color);
+    color: white;
+}
+
+.no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: var(--card-dark);
+    border-radius: 12px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .search-section {
+        flex-direction: column;
+    }
+
+    .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .movies-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    }
+}
